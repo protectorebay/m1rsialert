@@ -26,11 +26,24 @@ body {
     margin-bottom: 10px;
 }
 
-#alert {
-    font-size: 40px;
+#alert-container {
+    font-size: 36px;
     font-weight: bold;
     height: 50px;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#alert-dot {
+    color: orange;
+    font-size: 30px;
+}
+
+#alert-text {
+    min-width: 250px;
 }
 
 .blink-red {
@@ -106,7 +119,11 @@ body {
 <div id="container">
 
     <div id="value">--</div>
-    <div id="alert"></div>
+    
+    <div id="alert-container">
+        <span id="alert-dot">●</span>
+        <span id="alert-text"></span>
+    </div>
 
     <div id="meter-row">
         <div id="oversold" class="label">OVERSOLD</div>
@@ -172,7 +189,7 @@ function updateUI(value) {
     const meter = document.getElementById("meter");
     const needle = document.getElementById("needle");
     const valueEl = document.getElementById("value");
-    const alertEl = document.getElementById("alert");
+    const alertTextEl = document.getElementById("alert-text");
 
     valueEl.innerText = value.toFixed(2);
 
@@ -181,20 +198,19 @@ function updateUI(value) {
 
     needle.style.left = (position - 10) + "px";
 
-    alertEl.className = "";
-    alertEl.innerText = "";
+    // reset alert text
+    alertTextEl.className = '';
+    alertTextEl.innerText = '';
 
     if (value >= 75) {
         valueEl.style.color = "#e53935";
-        alertEl.innerText = "OVERBOUGHT";
-        alertEl.classList.add("blink-red");
-    }
-    else if (value <= 25) {
+        alertTextEl.innerText = '⚠️ OVERBOUGHT ALERT';
+        alertTextEl.classList.add("blink-red");
+    } else if (value <= 25) {
         valueEl.style.color = "#00c853";
-        alertEl.innerText = "OVERSOLD";
-        alertEl.classList.add("blink-green");
-    }
-    else {
+        alertTextEl.innerText = '⚠️ OVERSOLD ALERT';
+        alertTextEl.classList.add("blink-green");
+    } else {
         valueEl.style.color = "black";
     }
 }
